@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.taohansen.tvplaylist.entities.Category;
 import org.taohansen.tvplaylist.entities.Channel;
 import org.taohansen.tvplaylist.entities.Country;
 import org.taohansen.tvplaylist.entities.Language;
@@ -27,6 +28,8 @@ public class ChannelController {
     private CountryService countryService;
     @Autowired
     private LanguageService languageService;
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     public List<Channel> getAllChannels() {
@@ -52,10 +55,12 @@ public class ChannelController {
     @PostMapping
     public ResponseEntity<Channel> createChannel(@RequestBody @Valid Channel channel,
                                                  @RequestParam Long countryId,
-                                                 @RequestParam Long languageId) {
+                                                 @RequestParam Long languageId,
+                                                 @RequestParam Long categoryId) {
         Country country = countryService.getCountryById(countryId);
         Language language = languageService.getLanguageById(languageId);
-        Channel createdChannel = channelService.createChannel(channel, country, language);
+        Category category = categoryService.getCategoryById(categoryId);
+        Channel createdChannel = channelService.createChannel(channel, country, language, category);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdChannel);
     }
     @PutMapping("/{id}")

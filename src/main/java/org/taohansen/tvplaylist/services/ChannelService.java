@@ -38,9 +38,10 @@ public class ChannelService {
                 .orElseThrow(() -> new ResourceNotFoundException("Channel not found with id " + id));
     }
 
-    public Channel createChannel(Channel channel, Country country, Language language) {
+    public Channel createChannel(Channel channel, Country country, Language language, Category category){
         channel.setCountry(country);
         channel.setLanguage(language);
+        channel.setCategory(category);
         channel.setDateOfSubmission(LocalDateTime.now());
         return channelRepository.save(channel);
     }
