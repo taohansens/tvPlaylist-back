@@ -19,11 +19,6 @@ public class ChannelController {
     private CountryService countryService;
     @Autowired
     private LanguageService languageService;
-
-    public ChannelController(ChannelService channelService) {
-        this.channelService = channelService;
-    }
-
     @GetMapping
     public List<Channel> getAllChannels() {
         return channelService.getAllChannels();
