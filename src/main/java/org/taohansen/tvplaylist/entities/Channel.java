@@ -37,8 +37,9 @@ public class Channel {
     private Epg epgXml;
     @Column(name = "tvg_id")
     private String tvgId;
-    @Column
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Channel() {
     }
@@ -83,11 +84,11 @@ public class Channel {
         this.epgXml = epgXml;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
