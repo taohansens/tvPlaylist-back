@@ -20,6 +20,8 @@ public class Channel {
     @NotBlank
     @URL
     private String url;
+    @URL
+    private String tvgLogo;
     @ManyToOne
     @JoinColumn(name = "language_id", nullable = false)
     private Language language;
@@ -34,7 +36,9 @@ public class Channel {
     @JoinColumn(name = "epgxml_id")
     private Epg epgXml;
     @Column(name = "tvg_id")
-    private String tvg_id;
+    private String tvgId;
+    @Column
+    private String category;
 
     public Channel() {
     }
@@ -61,6 +65,30 @@ public class Channel {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getTvgLogo() {
+        return tvgLogo;
+    }
+
+    public void setTvgLogo(String tvgLogo) {
+        this.tvgLogo = tvgLogo;
+    }
+
+    public Epg getEpgXml() {
+        return epgXml;
+    }
+
+    public void setEpgXml(Epg epgXml) {
+        this.epgXml = epgXml;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Language getLanguage() {
@@ -95,20 +123,12 @@ public class Channel {
         this.dateOfSubmission = dateOfSubmission;
     }
 
-    public Epg getepgXml() {
-        return epgXml;
+    public String getTvgId() {
+        return tvgId;
     }
 
-    public void setepgXml(Epg epgXml) {
-        this.epgXml = epgXml;
-    }
-
-    public String getTvg_id() {
-        return tvg_id;
-    }
-
-    public void setTvg_id(String tvg_id) {
-        this.tvg_id = tvg_id;
+    public void setTvgId(String tvgId) {
+        this.tvgId = tvgId;
     }
 
     @Override

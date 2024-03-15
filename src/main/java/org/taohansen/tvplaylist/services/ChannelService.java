@@ -6,6 +6,8 @@ import org.taohansen.tvplaylist.entities.*;
 import org.taohansen.tvplaylist.repositories.ChannelRepository;
 import org.taohansen.tvplaylist.services.exceptions.ResourceNotFoundException;
 
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,5 +52,24 @@ public class ChannelService {
     public void deleteChannel(Long id) {
         Channel channel = getChannelById(id);
         channelRepository.delete(channel);
+    }
+
+    public ByteArrayInputStream generateM3uPlaylist(List<Channel> channels) {
+        StringBuilder m3uContent = new StringBuilder("#EXTM3U\n");
+
+        for (Channel channel : channels) {
+            m3uContent.append("#EXTINF:-1 tvg-id=\"")
+                    .append(channel.getTvgId())
+                    .append("\" tvg-logo=\"")
+                    .append(channel.getTvgLogo())
+                    .append("\" group-title=\"")
+                    .append(channel.getCategory())
+                    .append("\",")
+                    .append(channel.getName())
+                    .append("\n");
+            m3uContent.append(channel.getUrl()).append("\n");
+        }
+
+        return new ByteArrayInputStream(m3uContent.toString().getBytes(StandardCharsets.UTF_8));
     }
 }

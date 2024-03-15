@@ -1,8 +1,12 @@
 package org.taohansen.tvplaylist.controllers;
 
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.taohansen.tvplaylist.entities.Channel;
@@ -10,6 +14,7 @@ import org.taohansen.tvplaylist.entities.Country;
 import org.taohansen.tvplaylist.entities.Language;
 import org.taohansen.tvplaylist.services.*;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @RestController
@@ -61,5 +66,21 @@ public class ChannelController {
     @DeleteMapping("/{id}")
     public void deleteChannel(@PathVariable Long id) {
         channelService.deleteChannel(id);
+    }
+
+    @GetMapping(value = "/export", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<InputStreamResource> generateM3uPlaylist() {
+        List<Channel> channels = channelService.getAllChannels();
+        ByteArrayInputStream m3uContent = channelService.generateM3uPlaylist(channels);
+
+        InputStreamResource resource = new InputStreamResource(m3uContent);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=channels.m3u");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(m3uContent.available())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 }
