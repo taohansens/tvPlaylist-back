@@ -6,6 +6,7 @@ import org.taohansen.tvplaylist.entities.*;
 import org.taohansen.tvplaylist.repositories.ChannelRepository;
 import org.taohansen.tvplaylist.services.exceptions.ResourceNotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,7 +28,7 @@ public class ChannelService {
     }
 
     public List<Channel> findByEpg(Epg epg) {
-        return channelRepository.findByEpg(epg);
+        return channelRepository.findByEpgXml(epg);
     }
 
     public Channel getChannelById(Long id) {
@@ -35,10 +36,12 @@ public class ChannelService {
                 .orElseThrow(() -> new ResourceNotFoundException("Channel not found with id " + id));
     }
 
-    public Channel createChannel(Channel channel) {
+    public Channel createChannel(Channel channel, Country country, Language language) {
+        channel.setCountry(country);
+        channel.setLanguage(language);
+        channel.setDateOfSubmission(LocalDateTime.now());
         return channelRepository.save(channel);
     }
-
     public Channel updateChannel(Long id, Channel channelDetails) {
         Channel channel = getChannelById(id);
         return channelRepository.save(channel);

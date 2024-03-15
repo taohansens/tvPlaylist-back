@@ -7,19 +7,27 @@ import org.taohansen.tvplaylist.entities.Language;
 import org.taohansen.tvplaylist.repositories.CountryRepository;
 import org.taohansen.tvplaylist.services.exceptions.ResourceNotFoundException;
 
+import java.util.List;
+
 @Service
 public class CountryService {
 
     @Autowired
     private CountryRepository countryRepository;
 
+    public List<Country> getAllCountry() {
+        return countryRepository.findAll();
+    }
+
     public Country getCountryById(Long id) {
         return countryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Country not found with id " + id));
     }
+
     public Country createCountry(Country country) {
         return countryRepository.save(country);
     }
+
     public void deleteCountry(Long id) {
         Country country = getCountryById(id);
         countryRepository.delete(country);

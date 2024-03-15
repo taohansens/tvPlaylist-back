@@ -1,6 +1,9 @@
 package org.taohansen.tvplaylist.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.Objects;
 
@@ -10,9 +13,12 @@ public class Epg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
+    @Size(max = 20)
     private String name;
     private String comment;
-    @Column(nullable = false)
+    @NotBlank
+    @URL
     private String xmltv;
 
     public Epg() {

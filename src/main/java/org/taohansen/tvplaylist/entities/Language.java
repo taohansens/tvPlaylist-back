@@ -1,6 +1,8 @@
 package org.taohansen.tvplaylist.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.Objects;
 
@@ -11,11 +13,15 @@ public class Language {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank
     private String name;
 
-    @Column(nullable = false)
-    private String isoCode;
+    @NotBlank
+    private String ietfTag;
+
+    @NotBlank
+    @URL
+    private String flagUrl;
 
     public Language() {
     }
@@ -36,12 +42,20 @@ public class Language {
         this.name = name;
     }
 
-    public String getIsoCode() {
-        return isoCode;
+    public String getIetfTag() {
+        return ietfTag;
     }
 
-    public void setIsoCode(String isoCode) {
-        this.isoCode = isoCode;
+    public void setIetfTag(String ietfTag) {
+        this.ietfTag = ietfTag;
+    }
+
+    public String getFlagUrl() {
+        return flagUrl;
+    }
+
+    public void setFlagUrl(String flagUrl) {
+        this.flagUrl = flagUrl;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package org.taohansen.tvplaylist.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -11,9 +14,11 @@ public class Channel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @NotBlank
+    @Size(max = 100)
     private String name;
-    @Column(nullable = false)
+    @NotBlank
+    @URL
     private String url;
     @ManyToOne
     @JoinColumn(name = "language_id", nullable = false)
@@ -27,7 +32,7 @@ public class Channel {
     private LocalDateTime dateOfSubmission;
     @ManyToOne
     @JoinColumn(name = "epgxml_id")
-    private Epg epgXmlId;
+    private Epg epgXml;
     @Column(name = "tvg_id")
     private String tvg_id;
 
@@ -90,12 +95,12 @@ public class Channel {
         this.dateOfSubmission = dateOfSubmission;
     }
 
-    public Epg getEpgXmlId() {
-        return epgXmlId;
+    public Epg getepgXml() {
+        return epgXml;
     }
 
-    public void setEpgXmlId(Epg epgXmlId) {
-        this.epgXmlId = epgXmlId;
+    public void setepgXml(Epg epgXml) {
+        this.epgXml = epgXml;
     }
 
     public String getTvg_id() {

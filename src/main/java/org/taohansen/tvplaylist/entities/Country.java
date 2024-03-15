@@ -1,6 +1,8 @@
 package org.taohansen.tvplaylist.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 import java.util.Objects;
 
@@ -10,11 +12,12 @@ public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
+    @NotBlank
     private String name;
-    @Column(nullable = false)
+    @NotBlank
+    @URL
     private String flagUrl;
-    @Column(nullable = false)
+    @NotBlank
     private String isoCode;
 
     public Country() {

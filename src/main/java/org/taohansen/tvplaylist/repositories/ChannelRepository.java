@@ -14,6 +14,6 @@ public interface ChannelRepository extends JpaRepository<Channel, Long> {
     List<Channel> findByCountry(Country country);
 
     List<Channel> findByLanguage(Language language);
-    List<Channel> findByEpg(Epg epg);
+    List<Channel> findByEpgXml(Epg epg);
     List<Channel> findByCountryAndLanguage(Country country, Language language);
 }

@@ -1,6 +1,9 @@
 package org.taohansen.tvplaylist.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.taohansen.tvplaylist.entities.Channel;
 import org.taohansen.tvplaylist.entities.Country;
@@ -19,6 +22,7 @@ public class ChannelController {
     private CountryService countryService;
     @Autowired
     private LanguageService languageService;
+
     @GetMapping
     public List<Channel> getAllChannels() {
         return channelService.getAllChannels();
@@ -41,10 +45,14 @@ public class ChannelController {
     }
 
     @PostMapping
-    public Channel createChannel(@RequestBody Channel channel) {
-        return channelService.createChannel(channel);
+    public ResponseEntity<Channel> createChannel(@RequestBody @Valid Channel channel,
+                                                 @RequestParam Long countryId,
+                                                 @RequestParam Long languageId) {
+        Country country = countryService.getCountryById(countryId);
+        Language language = languageService.getLanguageById(languageId);
+        Channel createdChannel = channelService.createChannel(channel, country, language);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdChannel);
     }
-
     @PutMapping("/{id}")
     public Channel updateChannel(@PathVariable Long id, @RequestBody Channel channelDetails) {
         return channelService.updateChannel(id, channelDetails);
